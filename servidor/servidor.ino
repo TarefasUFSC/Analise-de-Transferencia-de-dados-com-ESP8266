@@ -3,7 +3,6 @@
 
 const char *ssid = "ESP_SERVER";
 const int serverPort = 8080;
-const int maxChunkSize = 1024; // Tamanho máximo de cada parte em bytes
 
 WiFiServer server(serverPort);
 
@@ -43,22 +42,15 @@ void loop()
 
       if (fileSizeRequested > 0)
       {
-        // client.println("HTTP/1.1 200 OK");
-        // client.println("Content-Type: text/plain");
-        // client.println("Connection: close");
-        // client.print("Content-Length: ");
-        // client.println(requestedSize);
-        // client.println();
-
-        for (int i = 0; i < fileSizeRequested * 1024; i++)
+        for (int i = 0; i < fileSizeRequested; i++)
         {
           client.print("A"); // Conteúdo do arquivo (caractere 'A' repetido)
-
-          delay(10); // Pequena pausa para evitar sobrecarga
+          Serial.print("A");
         }
       }
     }
     client.stop();
-    Serial.println("Cliente desconectado");
+    Serial.println("\nCliente desconectado");
+    delay(2000);
   }
 }
