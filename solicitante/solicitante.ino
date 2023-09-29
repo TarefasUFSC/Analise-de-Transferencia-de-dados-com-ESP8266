@@ -12,24 +12,27 @@ void setup()
     Serial.begin(9600);
     WiFi.begin(ssid); // Conectando-se ao AP "ESP_SERVER"
 
+    Serial.print("Conectando ao WiFi");
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(1000);
-        Serial.println("Conectando ao WiFi...");
+
+        Serial.print(".");
     }
-    Serial.println("Conectado ao WiFi");
+    Serial.println("\nConectado ao WiFi");
 }
 
 void loop()
 {
-    Serial.println("Digite o tamanho do arquivo que você deseja (em KB):");
+    Serial.println("Digite o tamanho do arquivo que você deseja (em Bytes):");
     while (!Serial.available())
     {
         delay(10);
     }
-    int requestedFileSizeKB = Serial.parseInt();
-    if(requestedFileSizeKB == 0) return;
-    Serial.println("Solicitando arquivo de " + String(requestedFileSizeKB) + " KB...");
+    int requestedFileSizeB = Serial.parseInt();
+    if (requestedFileSizeB == 0)
+        return;
+    Serial.println("Solicitando arquivo de " + String(requestedFileSizeB) + " Bytes...");
 
     if (client.connect(serverIP, serverPort))
     {
@@ -37,23 +40,28 @@ void loop()
 
         unsigned long startTime = millis();
 
-        client.println("GET /file?size=" + String(requestedFileSizeKB) + " HTTP/1.1");
+        client.println("GET /file?size=" + String(requestedFileSizeB) + " HTTP/1.1");
 
         int bytesRead = 0;
         Serial.println();
-        
-      long timeout = millis() + 50000;  // Define um timeout de 5 segundos
-      bool received = false;
-      while (millis() < timeout && requestedFileSizeKB*1024>bytesRead) {
-        while (client.available())
+
+        long timeout = millis() + 600000; // Define um timeout de 600 segundos
+        bool received = false;
+
+        // clear buffer
+        client.flush();
+
+        while (millis() < timeout && bytesRead < requestedFileSizeB)
         {
-            received = true;
-            char c = client.read();
-            bytesRead++;
-            Serial.print(".");
+            while (client.available())
+            {
+                received = true;
+                char c = client.read();
+                bytesRead++;
+                Serial.print(c);
+            }
         }
-      }
-        
+
         Serial.println();
 
         unsigned long endTime = millis();
@@ -73,5 +81,4 @@ void loop()
     {
         Serial.println("Falha na conexão ao servidor");
     }
-    delay(5000);
 }
