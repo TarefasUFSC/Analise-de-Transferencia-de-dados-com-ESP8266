@@ -5,21 +5,35 @@ import argparse
 import time
 
 # Configura o parser de argumentos
+# argumento da porta conectada ao ESP
 parser = argparse.ArgumentParser(description='Envia o tamanho do arquivo via serial e lê o tempo de transferência.')
 parser.add_argument('port', help='A porta serial do ESP. Exemplo: /dev/ttyUSB0 ou COM3.')
+
+# argumento da distancia entre os esps
+parser.add_argument('distance', help='A distância entre os ESPs em metros. Exemplo: 1.5')
+
+# argumento da quantidade de paredes
+parser.add_argument('walls', help='A quantidade de paredes entre os ESPs. Exemplo: 1')
+
+# ... assim ate ter todas as condições
+
 args = parser.parse_args()
 
 # Abre a porta serial
 ser = serial.Serial(args.port, 9600)
 
+print(f'Conectado à porta {args.port}, Para o teste nas seguintes condições:')
+print(f'- Distância entre os ESPs: {args.distance} metros')
+print(f'- Quantidade de paredes: {args.walls}')
+
 # Abre/cria um arquivo CSV para salvar os dados
 with open('data.csv', mode='w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(['Tamanho do Arquivo (bytes)', 'Tempo de Transferência (ms)'])  # Cabeçalho do CSV
+    writer.writerow(['QTD_Bytes', 'Tempo_ms', 'Distancia_m', 'QTD_Paredes']) # ... assim ate ter todas as condições
 
     while True:
         # Pede ao usuário para inserir o tamanho do arquivo
-        size = input("Digite o tamanho do arquivo que você deseja (em Bytes): ")
+        size = input("Digite o tamanho do arquivo que você deseja (em Bytes): ") #depois isso aqui vira um loop
 
         # Envia o tamanho do arquivo via serial para o ESP
         ser.write(size.encode())
