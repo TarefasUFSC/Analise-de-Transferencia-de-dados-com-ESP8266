@@ -16,7 +16,6 @@ parser.add_argument('distance', help='A distância entre os ESPs em metros. Exem
 parser.add_argument('walls', help='A quantidade de paredes entre os ESPs. Exemplo: 1')
 
 # ... assim ate ter todas as condições
-
 args = parser.parse_args()
 
 # Abre a porta serial
@@ -29,15 +28,19 @@ print(f'- Quantidade de paredes: {args.walls}')
 # Abre/cria um arquivo CSV para salvar os dados
 with open('data.csv', mode='w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(['QTD_Bytes', 'Tempo_ms', 'Distancia_m', 'QTD_Paredes']) # ... assim ate ter todas as condições
+    writer.writerow(['QTD_Bytes', 'Tempo_ms', 'Distancia_m', 'QTD_Paredes'])
 
     while True:
         # Pede ao usuário para inserir o tamanho do arquivo
-        size = input("Digite o tamanho do arquivo que você deseja (em Bytes): ") #depois isso aqui vira um loop
+        size = input("Digite o tamanho do arquivo que você deseja (em Bytes): ")
+        
+        if not size.isdigit():
+            print("Digite um valor válido.")
+            continue
 
         # Envia o tamanho do arquivo via serial para o ESP
         ser.write(size.encode())
-        ser.write(b'\n')  # Envia uma nova linha para indicar o final da entrada
+        ser.write(b'\n') # Envia uma nova linha para indicar o final da entrada
 
         # Aguarda um pouco para garantir que o ESP tenha tempo para processar a entrada
         time.sleep(2)
@@ -52,5 +55,5 @@ with open('data.csv', mode='w', newline='') as file:
             time = time_match.group(1)
 
             # Escreve os dados no arquivo CSV
-            writer.writerow([size, time])
+            writer.writerow([size, time, args.distance, args.walls])
             print(f"Dados salvos: Tamanho do Arquivo = {size} bytes, Tempo de Transferência = {time} ms")
