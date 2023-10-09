@@ -32,11 +32,11 @@ void loop()
     int requestedFileSizeB = Serial.parseInt();
     if (requestedFileSizeB == 0)
         return;
-    Serial.println("Solicitando arquivo de " + String(requestedFileSizeB) + " Bytes...");
+    // Serial.println("Solicitando arquivo de " + String(requestedFileSizeB) + " Bytes...");
 
     if (client.connect(serverIP, serverPort))
     {
-        Serial.println("Conectado ao servidor");
+        // Serial.println("Conectado ao servidor");
 
         unsigned long startTime = millis();
 
@@ -58,7 +58,7 @@ void loop()
                 received = true;
                 char c = client.read();
                 bytesRead++;
-                Serial.print(c);
+                // Serial.print(c);
             }
         }
 
@@ -67,10 +67,10 @@ void loop()
         unsigned long endTime = millis();
         unsigned long duration = endTime - startTime;
 
-        Serial.println("Arquivo recebido!");
-        Serial.print("Tamanho do arquivo: ");
-        Serial.print(bytesRead);
-        Serial.println(" bytes");
+        // Serial.println("Arquivo recebido!");
+        // Serial.print("Tamanho do arquivo: ");
+        // Serial.print(bytesRead);
+        // Serial.println(" bytes");
         Serial.print("Tempo de transferência: ");
         Serial.print(duration);
         Serial.println(" ms");
