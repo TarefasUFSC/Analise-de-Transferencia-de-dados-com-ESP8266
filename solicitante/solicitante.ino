@@ -12,19 +12,24 @@ void setup()
     Serial.begin(9600);
     WiFi.begin(ssid); // Conectando-se ao AP "ESP_SERVER"
 
-    Serial.print("Conectando ao WiFi");
+    Serial.print("CONNECTING");
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(1000);
 
         Serial.print(".");
     }
-    Serial.println("\nConectado ao WiFi");
+    Serial.println("\nCONNECTED");
 }
 
 void loop()
 {
-    Serial.println("Digite o tamanho do arquivo que você deseja (em Bytes):");
+    // limpa o buffer do serial monitor
+    while (Serial.available())
+    {
+        Serial.read();
+    }
+    Serial.println("FILE SIZE (Bytes):");
     while (!Serial.available())
     {
         delay(10);
@@ -36,14 +41,11 @@ void loop()
 
     if (client.connect(serverIP, serverPort))
     {
-        Serial.println("Conectado ao servidor");
-
         unsigned long startTime = millis();
 
         client.println("GET /file?size=" + String(requestedFileSizeB) + " HTTP/1.1");
 
         int bytesRead = 0;
-        Serial.println();
 
         long timeout = millis() + 600000; // Define um timeout de 600 segundos
         bool received = false;
@@ -58,27 +60,24 @@ void loop()
                 received = true;
                 char c = client.read();
                 bytesRead++;
-                Serial.print(c);
             }
         }
 
-        Serial.println();
 
         unsigned long endTime = millis();
         unsigned long duration = endTime - startTime;
 
-        Serial.println("Arquivo recebido!");
-        Serial.print("Tamanho do arquivo: ");
+        Serial.print("SUCCSESS;");
+        Serial.print("Size:");
         Serial.print(bytesRead);
-        Serial.println(" bytes");
-        Serial.print("Tempo de transferência: ");
+        Serial.print(" bytes;");
+        Serial.print("Duration:");
         Serial.print(duration);
         Serial.println(" ms");
-
         client.stop();
     }
     else
     {
-        Serial.println("Falha na conexão ao servidor");
+        Serial.println("ERROR: Falha de Conexão com o Servidor");
     }
 }

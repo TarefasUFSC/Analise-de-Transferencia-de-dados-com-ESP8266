@@ -32,25 +32,52 @@ void loop()
       String request = client.readStringUntil('\r');
       client.flush();
 
-      int requestedSize = 0;
-      Serial.print("Request: ");
-      Serial.println(request);
+      // Verificando se a requisição é válida
       int index = request.indexOf("GET /file?size=");
-      int fileSizeRequested = request.substring(index + 15).toInt();
-      Serial.print("File size request: ");
-      Serial.println(fileSizeRequested);
-
-      if (fileSizeRequested > 0)
+      if (index != -1)
       {
-        for (int i = 0; i < fileSizeRequested; i++)
+        int fileSizeRequested = request.substring(index + 15).toInt();
+        Serial.print("Request: ");
+        Serial.println(request);
+        Serial.print("File size request: ");
+        Serial.println(fileSizeRequested);
+
+        // Bufferizando a saída para enviar vários caracteres de uma vez
+        int progress = 0;
+        
+        Serial.println("Progresso: 0");
+        if (fileSizeRequested > 0)
         {
-          client.print("A"); // Conteúdo do arquivo (caractere 'A' repetido)
-          Serial.print("A");
+          String outputBuffer = "";
+          for (int i = 0; i < fileSizeRequested; i++)
+          {
+            outputBuffer += 'A';               // Conteúdo do arquivo (caractere 'A' repetido)
+            if (outputBuffer.length() >= 1024) // Enviar o buffer quando atingir um tamanho específico
+            {
+              client.print(outputBuffer);
+              outputBuffer = "";
+              if (100 * i / fileSizeRequested >= progress + 5)
+              {
+                Serial.print("Progresso: ");
+                Serial.println((int)(100 * i / fileSizeRequested));
+                progress = 100 * i / fileSizeRequested;
+              }
+            }
+          }
+          // Enviar o restante do buffer, se houver
+          if (outputBuffer.length() > 0)
+          {
+            client.print(outputBuffer);
+          }
         }
+      }
+      else
+      {
+        Serial.println("Requisição inválida");
       }
     }
     client.stop();
-    Serial.println("\nCliente desconectado");
+    Serial.println("Cliente desconectado");
     delay(2000);
   }
 }
