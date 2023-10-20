@@ -63,7 +63,6 @@ void loop()
             }
         }
 
-
         unsigned long endTime = millis();
         unsigned long duration = endTime - startTime;
 

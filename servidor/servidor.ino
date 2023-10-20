@@ -21,6 +21,43 @@ void setup()
   server.begin();
 }
 
+void handle_buffer(WiFiClient client, String outputBuffer, int *progress, int fileSizeRequested, int i)
+{
+  if (outputBuffer.length() >= 1024) // Enviar o buffer quando atingir um tamanho específico
+  {
+    client.print(outputBuffer);
+    outputBuffer = "";
+    if (100 * i / fileSizeRequested >= *progress + 5)
+    {
+      Serial.print("Progresso: ");
+      Serial.println((int)(100 * i / fileSizeRequested));
+      *progress = 100 * i / fileSizeRequested;
+    }
+  }
+}
+
+void send_data(WiFiClient client, int fileSizeRequested)
+{
+  // Bufferizando a saída para enviar vários caracteres de uma vez
+  int progress = 0;
+
+  Serial.println("Progresso: 0");
+  if (fileSizeRequested > 0)
+  {
+    String outputBuffer = "";
+    for (int i = 0; i < fileSizeRequested; i++)
+    {
+      outputBuffer += 'A'; // Conteúdo do arquivo (caractere 'A' repetido)
+      handle_buffer(client, outputBuffer, &progress, fileSizeRequested, i);
+    }
+    // Enviar o restante do buffer, se houver
+    if (outputBuffer.length() > 0)
+    {
+      client.print(outputBuffer);
+    }
+  }
+}
+
 void loop()
 {
   WiFiClient client = server.available();
@@ -42,34 +79,8 @@ void loop()
         Serial.print("File size request: ");
         Serial.println(fileSizeRequested);
 
-        // Bufferizando a saída para enviar vários caracteres de uma vez
-        int progress = 0;
-        
-        Serial.println("Progresso: 0");
-        if (fileSizeRequested > 0)
-        {
-          String outputBuffer = "";
-          for (int i = 0; i < fileSizeRequested; i++)
-          {
-            outputBuffer += 'A';               // Conteúdo do arquivo (caractere 'A' repetido)
-            if (outputBuffer.length() >= 1024) // Enviar o buffer quando atingir um tamanho específico
-            {
-              client.print(outputBuffer);
-              outputBuffer = "";
-              if (100 * i / fileSizeRequested >= progress + 5)
-              {
-                Serial.print("Progresso: ");
-                Serial.println((int)(100 * i / fileSizeRequested));
-                progress = 100 * i / fileSizeRequested;
-              }
-            }
-          }
-          // Enviar o restante do buffer, se houver
-          if (outputBuffer.length() > 0)
-          {
-            client.print(outputBuffer);
-          }
-        }
+        // envia os dados
+        send_data(client, fileSizeRequested);
       }
       else
       {
