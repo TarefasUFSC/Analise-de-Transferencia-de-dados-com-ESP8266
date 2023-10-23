@@ -3,7 +3,6 @@ class ExperimentArguments():
     def __init__(self, args):
         """Construtor dos Argumentos do Experimento. Aqui Também é feita a validação dos argumentos"""
         
-        
         self._validate_port(args.port)
         self._validate_distance(args.distance)
         self._validate_walls(args.walls)

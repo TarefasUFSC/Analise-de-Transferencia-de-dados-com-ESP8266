@@ -7,7 +7,39 @@ import matplotlib.pylab as plt
 import re
 
 class ESP_Serial():
-    __init__()
+    def __init__(self, port):
+        """Construtor da classe ESP_Serial"""
+        self.port = port
+        self._open_serial()
+    
+    def _open_serial(self):
+        """Abre a porta serial"""
+        self.serial = serial.Serial(self.port, 9600)
+    
+    def _close_serial(self):
+        """Fecha a porta serial"""
+        self.serial.close()
+    
+    def run_experiment(self):
+        """Executa o experimento e retorna os tempo de transferência
+        return [int]
+        para cada tamanho é feito 3 envios
+        """
+
+        # tamanho dos arquivos: começa em 128 e vai de 128 em 128 até 10240
+
+        sizes = []
+        for i in range(128,10240,128):
+            sizes.append(i)
+
+        # data: {size: [time1, time2, time3]}
+        # exemplo: {128: [1,2,3], 256: [4,5,6]}
+        # Se der algum erro, retorna None
+        data = {}
+
+        # TODO - @Italo, implementar aqui o de um jeito bom o que agt vez em sala (que esta comentado em baixo)
+
+        return data
 
 
 
