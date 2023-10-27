@@ -66,7 +66,7 @@ void loop()
         unsigned long endTime = millis();
         unsigned long duration = endTime - startTime;
 
-        Serial.print("SUCCSESS;");
+        Serial.print("SUCCESS;");
         Serial.print("Size:");
         Serial.print(bytesRead);
         Serial.print(" bytes;");

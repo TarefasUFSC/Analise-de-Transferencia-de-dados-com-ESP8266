@@ -20,6 +20,16 @@ class ESPSerial():
         """Fecha a porta serial"""
         self.serial.close()
     
+    def aguardar_substring(self, substring):
+        while True:
+            line = str(self.serial.readline())
+            print(line)
+            if substring in line:
+                print(f'Achei {substring}')
+                return line
+            else:
+                print(f'Não achei {substring}')
+    
     def run_experiment(self):
         """Executa o experimento e retorna os tempo de transferência
         return [int]
@@ -27,23 +37,58 @@ class ESPSerial():
         """
 
         # tamanho dos arquivos: começa em 128 e vai de 128 em 128 até 10240
-
-        sizes = []
-        for i in range(128,10240,128):
-            sizes.append(i)
+        sizes = [i for i in range(128, 384, 128)]
 
         # data: {size: [time1, time2, time3]}
         # exemplo: {128: [1,2,3], 256: [4,5,6]}
-        # Se der algum erro, retorna None
         data = {}
+        print(sizes)
 
-        # TODO - @Italo, implementar aqui o de um jeito bom o que agt vez em sala (que esta comentado em baixo)
+        try:
+            self.aguardar_substring("CONNECTED")
+            time.sleep(2)
+            for size in sizes:
+                times = []
+                for _ in range(3):  # Faz 3 envios para cada tamanho de arquivo
+                    # Envia o tamanho do arquivo via serial para o ESP                    
+                    # self.aguardar_substring("FILE SIZE")
+                    self.serial.write(f"{size}\n".encode())
+                    
+                    # Aguarda um pouco para garantir que o ESP tenha tempo para processar a entrada
+                    time.sleep(2)
+                    
+                    # fica lendo linhas ate uma delas conter a palavra SUCCESS
+                    line = self.aguardar_substring("SUCCESS")
+                        
+                    # Procura pelo tempo de transferência na linha lida
+                    time_match = re.search(r'Duration:(\d+) ms', line)
+                    if time_match:
+                        times.append(int(time_match.group(1)))
+                        print(f"O tempo foi de: {time_match.group(1)}")
+                    else:
+                        print("n achei o tempo")
+                    time.sleep(2)                                  
+                
+                data[size] = times
+                print(data)
+
+        except Exception as e:
+            print(f"Ocorreu um erro durante o experimento: {e}")
+            return None
 
         return data
 
 
+if (__name__ == '__main__'):
+    # Exemplo de uso
+    esp_serial = ESPSerial('COM3')  # Substitua 'COM3' pela porta serial do seu ESP8266
+    data = esp_serial.run_experiment()
+    esp_serial._close_serial()
 
-
+    if data is not None:
+        print(data)
+    else:
+        print("Experimento não foi concluído com sucesso.")
 
 # # Abre a porta serial
 # ser = serial.Serial(args.port, 9600)
