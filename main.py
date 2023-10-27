@@ -102,3 +102,4 @@ def get_arguments():
 if __name__ == "__main__":
     args = get_arguments()
     experiment = ExperimentWrapper(args)
+    experiment.run_experiment()

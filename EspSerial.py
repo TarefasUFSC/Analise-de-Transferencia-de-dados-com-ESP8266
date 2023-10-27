@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import re
 
-class ESP_Serial():
+class ESPSerial():
     def __init__(self, port):
         """Construtor da classe ESP_Serial"""
         self.port = port

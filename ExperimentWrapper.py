@@ -1,4 +1,5 @@
 from ExperimentArguments import ExperimentArguments
+from ESPSerial import ESPSerial
 import pandas as pd
 import numpy as np
 class ExperimentWrapper():
@@ -44,10 +45,10 @@ class ExperimentWrapper():
 
     def run_experiment(self):
         """Executa o experimento"""
-        esp_serial = EspSerial(self.experiment_arguments.port)
-        experiment_data = esp_serial.run_experiment(self.experiment_arguments)
+        esp_serial = ESPSerial(self.experiment_arguments.port)
+        experiment_data = esp_serial.run_experiment()
 
-        if(experiment_data is None):
+        if(experiment_data is None or experiment_data == {}):
             raise Exception("O experimento não retornou nenhum dado.")
         
         # pega as chaves fo dicionario
