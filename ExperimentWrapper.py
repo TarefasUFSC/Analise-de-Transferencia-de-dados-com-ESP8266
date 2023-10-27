@@ -1,5 +1,5 @@
 from ExperimentArguments import ExperimentArguments
-from ESPSerial import ESPSerial
+from EspSerial import ESPSerial
 import pandas as pd
 import numpy as np
 class ExperimentWrapper():
