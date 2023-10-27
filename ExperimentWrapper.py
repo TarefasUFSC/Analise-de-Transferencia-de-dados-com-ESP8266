@@ -49,7 +49,7 @@ class ExperimentWrapper():
         experiment_data = esp_serial.run_experiment()
 
         if(experiment_data is None or experiment_data == {}):
-            raise Exception("O experimento não retornou nenhum dado.")
+            raise Exception("\033[91m\033[91mO experimento não retornou nenhum dado.\033[0m")
         
         # pega as chaves fo dicionario
         keys = experiment_data.keys()

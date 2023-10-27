@@ -14,25 +14,25 @@ class ExperimentArguments():
 
     def _validate_port(self,port):
         if(port == None):
-            raise Exception("A porta serial do ESP não foi informada.")
+            raise Exception("\033[91mA porta serial do ESP não foi informada.\033[0m")
         self.port = port
 
     def _validate_distance(self,distance):
         if(distance == None):
-            raise Exception("A distância entre os ESPs não foi informada.")
+            raise Exception("\033[91mA distância entre os ESPs não foi informada.\033[0m")
         self.distance = distance
     
     def _validate_walls(self,walls):
         if(int(walls)<0):
-            raise Exception("A quantidade de paredes deve ser um número inteiro positivo.")
+            raise Exception("\033[91mA quantidade de paredes deve ser um número inteiro positivo.\033[0m")
         self.walls =  int(walls)
 
     def _validate_wifi(self,wifi, wifi_location):
         if(wifi != 'SAME' and wifi != 'DIFF' and wifi != ''):
-            raise Exception("A interferência wifi deve ser SAME ou DIFF.")
+            raise Exception("\033[91mA interferência wifi deve ser SAME ou DIFF.\033[0m")
         if(wifi != ''):
             if(wifi_location != 'CLIENT' and wifi_location != 'SERVER'):
-                raise Exception("A localização da interferência wifi deve ser CLIENT ou SERVER.")
+                raise Exception("\033[91mA localização da interferência wifi deve ser CLIENT ou SERVER.\033[0m")
             self.wifi_location = wifi_location
             self.wifi = wifi
         else:
@@ -41,17 +41,17 @@ class ExperimentArguments():
 
     def _validate_bluetooth(self,bluetooth):
         if(bluetooth != 'SAME' and bluetooth != 'DIFF' and bluetooth != ''):
-            raise Exception("A interferência bluetooth deve ser SAME ou DIFF.")
+            raise Exception("\033[91mA interferência bluetooth deve ser SAME ou DIFF.\033[0m")
         self.bluetooth = bluetooth if bluetooth != '' else None
     
     def _validate_microwave(self,microwave):
         if(microwave != 'SAME' and microwave != 'DIFF' and microwave != ''):
-            raise Exception("A interferência com microondas deve ser SAME ou DIFF.")
+            raise Exception("\033[91mA interferência com microondas deve ser SAME ou DIFF.\033[0m")
         self.microwave = microwave if microwave != '' else None
 
     def _validate_cem(self,electromagnetic):
         if(electromagnetic != 'SAME' and electromagnetic != 'DIFF' and electromagnetic != ''):
-            raise Exception("A interferência com campo eletromagnético deve ser SAME ou DIFF.")
+            raise Exception("\033[91mA interferência com campo eletromagnético deve ser SAME ou DIFF.\033[0m")
         self.electromagnetic = electromagnetic if electromagnetic != '' else None
 
     def __str__(self):
