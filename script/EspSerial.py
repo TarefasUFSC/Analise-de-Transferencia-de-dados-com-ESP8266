@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
 import re
+from tqdm import tqdm
 
 class ESPSerial():
     def __init__(self, port):
@@ -23,12 +24,13 @@ class ESPSerial():
     def aguardar_substring(self, substring):
         while True:
             line = str(self.serial.readline())
-            print(line)
+            # print(line)
             if substring in line:
-                print(f'Achei {substring}')
+                # print(f'Achei {substring}')
                 return line
             else:
-                print(f'Não achei {substring}')
+                # print(f'Não achei {substring}')
+                continue
     
     def run_experiment(self):
         """Executa o experimento e retorna os tempo de transferência
@@ -47,7 +49,7 @@ class ESPSerial():
         try:
             self.aguardar_substring("CONNECTED")
             time.sleep(2)
-            for size in sizes:
+            for size in tqdm(sizes):
                 times = []
                 for _ in range(3):  # Faz 3 envios para cada tamanho de arquivo
                     # Envia o tamanho do arquivo via serial para o ESP                    
@@ -64,13 +66,13 @@ class ESPSerial():
                     time_match = re.search(r'Duration:(\d+) ms', line)
                     if time_match:
                         times.append(int(time_match.group(1)))
-                        print(f"O tempo foi de: {time_match.group(1)}")
+                        # print(f"O tempo foi de: {time_match.group(1)}")
                     else:
                         print("n achei o tempo")
                     time.sleep(2)                                  
                 
                 data[size] = times
-                print(data)
+                # print(data)
 
         except Exception as e:
             print(f"Ocorreu um erro durante o experimento: {e}")
