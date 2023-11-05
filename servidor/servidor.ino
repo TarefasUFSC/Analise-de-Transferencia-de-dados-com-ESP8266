@@ -12,7 +12,7 @@ void setup()
 
   // Configurando o ESP como ponto de acesso
   WiFi.mode(WIFI_AP);
-  WiFi.softAP(ssid);
+  WiFi.softAP(ssid,NULL,4);
 
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
