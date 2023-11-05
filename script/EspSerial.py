@@ -37,7 +37,7 @@ class ESPSerial():
         """
 
         # tamanho dos arquivos: começa em 128 e vai de 128 em 128 até 10240
-        sizes = [i for i in range(128, 1025, 128)]
+        sizes = [i for i in range(128, 10241, 128)]
 
         # data: {size: [time1, time2, time3]}
         # exemplo: {128: [1,2,3], 256: [4,5,6]}
