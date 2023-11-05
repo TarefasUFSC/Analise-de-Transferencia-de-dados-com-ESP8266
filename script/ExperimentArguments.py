@@ -40,8 +40,8 @@ class ExperimentArguments():
             self.wifi = None
 
     def _validate_bluetooth(self,bluetooth):
-        if(bluetooth != 'SAME' and bluetooth != 'DIFF' and bluetooth != ''):
-            raise Exception("\033[91mA interferência bluetooth deve ser SAME ou DIFF.\033[0m")
+        if(bluetooth != 'CLIENT' and bluetooth != 'SERVER' and bluetooth != ''):
+            raise Exception("\033[91mA interferência bluetooth deve ser CLIENT ou SERVER.\033[0m")
         self.bluetooth = bluetooth if bluetooth != '' else None
     
     def _validate_microwave(self,microwave):
