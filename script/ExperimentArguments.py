@@ -45,13 +45,13 @@ class ExperimentArguments():
         self.bluetooth = bluetooth if bluetooth != '' else None
     
     def _validate_microwave(self,microwave):
-        if(microwave != 'SAME' and microwave != 'DIFF' and microwave != ''):
-            raise Exception("\033[91mA interferência com microondas deve ser SAME ou DIFF.\033[0m")
+        if(microwave != 'CLIENT' and microwave != 'SERVER' and microwave != ''):
+            raise Exception("\033[91mA interferência com microondas deve ser CLIENT ou SERVER.\033[0m")
         self.microwave = microwave if microwave != '' else None
 
     def _validate_cem(self,electromagnetic):
-        if(electromagnetic != 'SAME' and electromagnetic != 'DIFF' and electromagnetic != ''):
-            raise Exception("\033[91mA interferência com campo eletromagnético deve ser SAME ou DIFF.\033[0m")
+        if(electromagnetic != 'CLIENT' and electromagnetic != 'SERVER' and electromagnetic != ''):
+            raise Exception("\033[91mA interferência com campo eletromagnético deve ser CLIENT ou SERVER.\033[0m")
         self.electromagnetic = electromagnetic if electromagnetic != '' else None
 
     def __str__(self):
