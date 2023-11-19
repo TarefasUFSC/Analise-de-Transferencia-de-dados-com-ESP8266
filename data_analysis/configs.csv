@@ -1,0 +1,17 @@
+Distancia_m,QTD_Paredes,INT_WIFI,INT_WIFI-Mesmo_Canal,INT_WIFI-Proximo,INT_BT,INT_BT-Proximo,INT_MICROONDAS,INT_MICROONDAS-Proximo,INT_FURADEIRA,INT_FURADEIRA-Proximo,Nome
+0,0,1,SAME,SERVER,0,,0,,0,,0m-wifi_same_server
+0,0,1,DIFF,SERVER,0,,0,,0,,0m-wifi_diff_server
+0,0,1,DIFF,SERVER,1,CLIENT,0,,0,,0m-wifi_diff_server+bl_client
+0,0,1,SAME,SERVER,1,CLIENT,0,,0,,0m-wifi_same_server+bl_client
+1,0,1,SAME,SERVER,0,,0,,0,,1m-wifi_same_server
+0,0,0,,,0,,0,,0,,0m-Sem_Interferência
+1,0,0,,,0,,0,,0,,1m-Sem_Interferência
+5,0,0,,,0,,0,,0,,5m-Sem_Interferência
+1,0,1,DIFF,SERVER,1,SERVER,0,,0,,1m-wifi_diff_server+bl_server
+0,1,1,DIFF,CLIENT,0,,0,,0,,0m-wifi_same_client+1_parede
+0,1,1,SAME,CLIENT,0,,0,,0,,0m-wifi_diff_client+1_parede
+0,0,1,DIFF,CLIENT,0,,0,,1,CLIENT,0m-wifi_same_client+cem_client
+0,0,1,SAME,CLIENT,0,,0,,1,CLIENT,0m-wifi_diff_client+cem_client
+0,0,1,SAME,CLIENT,0,,1,CLIENT,0,,0m-wifi_same_client+microondas_client
+0,0,1,DIFF,CLIENT,0,,1,CLIENT,0,,0m-wifi_diff_client+microondas_client
+0,0,0,,,1,CLIENT,0,,0,,0m_Bluetooth
