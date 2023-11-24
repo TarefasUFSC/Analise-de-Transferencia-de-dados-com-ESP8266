@@ -3,6 +3,8 @@ import numpy as np
 
 # cols: Distancia_m,QTD_Paredes,INT_WIFI,INT_WIFI-Mesmo_Canal,INT_WIFI-Proximo,INT_BT,INT_BT-Proximo,INT_MICROONDAS,INT_MICROONDAS-Proximo,INT_FURADEIRA,INT_FURADEIRA-Proximo
 
+# TO DO: Usar o chat GPT para gerar uma analise estatistica para ver a influencia de cada intereferencia
+#  é mais forte (gerou mais interferecnia) e qual é a menor (menor interferencia)
 
 df = pd.read_csv("data.csv")
 # Configurações específicas fornecidas pelo usuário

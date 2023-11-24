@@ -1,0 +1,17 @@
+Interference_Type,Mean_Transmission_Time
+data\0m-Sem_Interferência,366.1333333333333
+data\0m-wifi_diff_client+1_parede,370.95
+data\0m-wifi_diff_client+cem_client,354.29166666666663
+data\0m-wifi_diff_client+microondas_client,353.25
+data\0m-wifi_diff_server+bl_client,368.5708333333333
+data\0m-wifi_diff_server,373.3333333333333
+data\0m-wifi_same_client+1_parede,361.1333333333333
+data\0m-wifi_same_client+cem_client,350.7083333333333
+data\0m-wifi_same_client+microondas_client,354.0833333333333
+data\0m-wifi_same_server+bl_client,363.71666666666664
+data\0m-wifi_same_server,366.0458333333333
+data\0m_Bluetooth,375.05
+data\1m-Sem_Interferência,366.27083333333337
+data\1m-wifi_diff_server+bl_server,375.96666666666664
+data\1m-wifi_same_server,362.2
+data\5m-Sem_Interferência,376.2875
