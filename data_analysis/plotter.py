@@ -129,7 +129,7 @@ fig.write_image("graphs/" + str(max_size) + ".png")
 # calcula e faz um grafico com o tempo medio, maximo e minimo de cada um dos arquivos
 for df, name in zip(dfs, names):
      # Create a new DataFrame for the row you want to append
-    new_row = pd.DataFrame([{"Arquivo": name, 
+    new_row = pd.DataFrame([{"Arquivo": name.split('.')[0], 
                              "Tempo_máximo": df[df["QTD_Bytes"] <= max_size]["Tempo_ms"].max(), 
                              "Tempo_mínimo": df["Tempo_ms"].min(), 
                              "Tempo_médio": df["Tempo_ms"].mean()}])
