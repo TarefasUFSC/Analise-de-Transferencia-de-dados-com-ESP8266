@@ -7,13 +7,13 @@ import plotly.graph_objects as go
 # importa cada um dos csv que estão na pasta filtered e coloca eles em uma lista [df,nome_aquivo]
 
 # lista de arquivos
-files = os.listdir("filtered")
+files = os.listdir("filtered_data")
 # lista de dataframes
 dfs = []
 # lista de nomes
 names = []
 for file in files:
-    df = pd.read_csv("filtered/" + file)
+    df = pd.read_csv("filtered_data/" + file)
     dfs.append(df)
     names.append(file)
 baseline_name = "0m-Sem_Interferência.csv"
@@ -87,8 +87,12 @@ fig.update_layout(width=1920, height=1080, legend_orientation="h")
 fig.write_image("graphs/regressao/regressions.png")
 print("Regressões salvas em graphs/regressao/regressions.png")
 
+
+# vai salvar num csv oa tempos do tamanho maximo, do tamanho minimo e a media de tempo de cada um dos arquivos
+df_times_comparison = pd.DataFrame(columns=["Arquivo", "Tempo_máximo", "Tempo_mínimo", "Tempo_médio"])
 # grafico de barras comparando o 128 de todos
 # salva como 128.png
+
 fig = go.Figure()
 for df, name in zip(dfs, names):
     fig.add_trace(go.Bar(y=df[df["QTD_Bytes"] == 128]["Tempo_ms"], name=name))
@@ -111,12 +115,35 @@ print("Maior tamanho comum a todos os arquivos: " + str(max_size))
 
 # faz um grafico de barras comparando o maior tamanho comum a todos os arquivos
 # salva como max_size.png
+
 fig = go.Figure()
 for df, name in zip(dfs, names):
+    # Add a bar trace to the figure
     fig.add_trace(go.Bar(y=df[df["QTD_Bytes"] == max_size]["Tempo_ms"], name=name))
+
+
 fig.update_layout(title_text="Comparação entre todos os " + str(max_size))
 fig.write_image("graphs/" + str(max_size) + ".png")
 
 
+# calcula e faz um grafico com o tempo medio, maximo e minimo de cada um dos arquivos
+for df, name in zip(dfs, names):
+     # Create a new DataFrame for the row you want to append
+    new_row = pd.DataFrame([{"Arquivo": name, 
+                             "Tempo_máximo": df[df["QTD_Bytes"] <= max_size]["Tempo_ms"].max(), 
+                             "Tempo_mínimo": df["Tempo_ms"].min(), 
+                             "Tempo_médio": df["Tempo_ms"].mean()}])
+
+    # Use pd.concat to append the new row to df_times_comparison
+    df_times_comparison = pd.concat([df_times_comparison, new_row], ignore_index=True)
+# salva como average.png
+fig = go.Figure()
+# usa o df_times_comparison para fazer o grafico
+fig.add_trace(go.Bar(y=df_times_comparison["Tempo_máximo"], x=df_times_comparison["Arquivo"], name="Tempo máximo"))
+fig.add_trace(go.Bar(y=df_times_comparison["Tempo_mínimo"], x=df_times_comparison["Arquivo"], name="Tempo mínimo"))
+fig.add_trace(go.Bar(y=df_times_comparison["Tempo_médio"], x=df_times_comparison["Arquivo"], name="Tempo médio"))
+fig.update_layout(title_text="Comparação entre os tempos máximo, mínimo e médio")
+
+fig.write_image("graphs/average.png")
 
     
