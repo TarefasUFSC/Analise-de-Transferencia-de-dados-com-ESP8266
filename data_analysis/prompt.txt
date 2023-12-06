@@ -1,0 +1,55 @@
+Eu enviei meus dados para um analista de estatística para ele fazer as contas para mim e ele me deu um relatório que eu quero que você avalie e separe entre conteúdo para eu colocar na metodologia, resultados e conclusão com base no meu artigo em anexo. Não se preocupe em repetir infromações caso necessário. Melhore o texto do analista e deixe coerente com escrita cientifica e com o conteúdo da secção onde aquilo sera inserido. A sua resposta devem ser blocos de latex que eu possa copiar, e nos resultados devem estar previstos lugares para eu incluir as tabelas de cada um dos 3 modelos OLS que ele fez
+
+
+
+A análise dos resultados da regressão linear ordinária (OLS) fornece insights valiosos sobre como diferentes condições de interferência e distâncias afetam o tempo médio de transmissão de dados. Nesta análise, utilizamos flags binárias para sinalizar a presença ou ausência de cada uma das variáveis analisadas. O tempo médio foi calculado tomando a média dos valores dos dados para cada condição de teste, considerando apenas valores de tamanho de pacote menores ou iguais a 9088, conforme discutido na secção de Dificuldades Encontradas.
+
+Interpretação dos Coeficientes e t-values
+É importante compreender a interpretação dos coeficientes e t-values em um modelo OLS:
+
+Coeficiente (coef): Os coeficientes representam a magnitude da mudança esperada na variável dependente (tempo médio) para uma unidade de mudança na variável independente, mantendo todas as outras variáveis constantes.
+
+t-value (t): O t-value indica o quão significativo é o coeficiente. Valores de t elevados em módulo indicam uma maior significância estatística.
+
+A interpretação dos resultados depende da relação entre os coeficientes e os t-values:
+
+Ambos Positivos: Quando tanto o coeficiente quanto o t-value são positivos, isso indica uma relação positiva significativa. A variável independente aumenta a variável dependente. Ou seja, um aumento na variável independente está associado a um aumento no tempo médio.
+
+Ambos Negativos: Quando tanto o coeficiente quanto o t-value são negativos, isso indica uma relação negativa significativa. A variável independente diminui a variável dependente. Em outras palavras, um aumento na variável independente está associado a uma diminuição no tempo médio.
+
+Um Negativo e Outro Positivo: Se um coeficiente é positivo e o t-value é negativo, ou vice-versa, isso indica que a relação não é significativa ou é menos robusta. A variável independente pode não ter um impacto estatisticamente significativo na variável dependente.
+
+Contexto do Modelo OLS
+O modelo OLS é uma técnica estatística de regressão amplamente utilizada para analisar a relação entre uma variável dependente (neste caso, o tempo médio de transmissão de dados) e uma ou mais variáveis independentes (condições de interferência e distâncias). O objetivo é entender como as variáveis independentes afetam a variável dependente.
+
+# escolhendo qual tipo de redução de dado fazer
+MinTime:
+Os resultados da regressão linear para MinTime indicam que o modelo tem um poder de explicação limitado. O baixo R-squared (0.605) sugere que as variáveis independentes têm dificuldade em explicar a variabilidade em MinTime. Além disso, o R-squared ajustado é muito baixo (0.012), indicando que o modelo não é uma boa representação dos dados para MinTime. O F-statistic também é baixo, e o valor p associado a ele é alto (0.510), o que significa que o modelo globalmente não é estatisticamente significativo para explicar MinTime. Isso sugere que as variáveis independentes, que incluem diferentes condições de teste, não são boas preditoras do tempo mínimo.
+
+MaxTime:
+Para MaxTime, os resultados também apontam para um modelo com poder de explicação limitado. O R-squared é relativamente baixo (0.708), indicando que as variáveis independentes têm dificuldade em explicar a variabilidade em MaxTime. O R-squared ajustado é baixo (0.269), sugerindo que o modelo não é uma boa representação dos dados para MaxTime. O F-statistic é baixo, e o valor p associado a ele é alto (0.289), o que indica que o modelo globalmente não é estatisticamente significativo para explicar MaxTime. Assim como em MinTime, isso sugere que as variáveis independentes não são preditoras confiáveis do tempo máximo.
+
+MeanTime:
+Os resultados para MeanTime são mais promissores em comparação com as outras duas variáveis dependentes. O R-squared é relativamente alto (0.898), indicando que as variáveis independentes explicam uma parte significativa da variabilidade em MeanTime. O R-squared ajustado também é mais alto (0.745), sugerindo que o modelo é uma representação razoável dos dados para MeanTime. Além disso, o F-statistic é maior e o valor p associado a ele é baixo (0.0216), o que indica que o modelo globalmente é estatisticamente significativo para explicar MeanTime. Isso sugere que as variáveis independentes, incluindo diferentes condições de teste, têm uma influência significativa no tempo médio.
+
+Em resumo, os resultados mostram que o modelo linear é mais adequado para explicar a variabilidade em MeanTime em comparação com MinTime e MaxTime. No entanto, é importante notar que os modelos para todas as três condições não são perfeitos e podem não capturar todos os fatores que afetam o tempo de transferência de dados. Portanto, para uma análise mais completa e robusta, é recomendável considerar outras técnicas de modelagem em pesquisas futuras e investigar possíveis fatores adicionais que possam influenciar essas variáveis dependentes.
+
+
+# Avaliação dos Coeficientes
+Agora, analisemos os resultados dos coeficientes em relação às condições de interferência e distâncias na redução para MeanTime:
+
+const: Com um coeficiente de 277.1729, este valor representa o tempo médio estimado quando todas as variáveis independentes são zero. No entanto, na prática, esse cenário específico pode não ser possível ou relevante.
+
+Distâncias (dist_1m, dist_0m, dist_5m): Os coeficientes positivos e significativos para 'dist_1m' (87.8735), 'dist_0m' (90.1849) e 'dist_5m' (99.1146) sugerem que o aumento da distância está associado a um aumento no tempo médio. Esses resultados são intuitivos, pois maior distância pode implicar em maior tempo de transmissão de dados.
+
+Interferências (cem_client, microondas_client, wifi_diff_client, wifi_same_client): Os coeficientes negativos e significativos para 'cem_client' (-8.8848), 'microondas_client' (-7.7181), 'wifi_diff_client' (-3.8786) e 'wifi_same_client' (-8.0674) indicam que a presença dessas condições específicas de interferência está associada à redução do tempo médio.
+
+Bluetooth (bluetooth, bl_client, bl_server): Os coeficientes oferecem uma visão mista, mas não são estatisticamente significativos (p > 0.05), o que sugere cautela na interpretação desses efeitos.
+
+wifi_same_server e wifi_diff_server: Ambas as variáveis não mostram efeitos significativos no tempo médio.
+
+# Considerações Estatísticas
+O modelo apresenta uma boa adequação com um R-squared ajustado alto. No entanto, a presença de coeficientes significativos e não significativos no mesmo modelo exige uma interpretação cuidadosa, levando em conta a possibilidade de multicolinearidade ou outras complexidades do modelo.
+
+Conclusão
+Em resumo, esta análise oferece insights valiosos sobre como diferentes condições de interferência e distâncias afetam o tempo médio de transmissão de dados. Os resultados destacam a importância da distância como um fator determinante, enquanto sugerem que a presença de certas condições de interferência pode reduzir o tempo médio. No entanto, devido à complexidade das interações, mais investigações são necessárias para compreender completamente essas dinâmicas.

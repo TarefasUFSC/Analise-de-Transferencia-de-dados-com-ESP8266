@@ -25,7 +25,7 @@ specified_configs = [
     ("0m-wifi_diff_client+cem_client"),
     ("0m-wifi_same_client+microondas_client"),
     ("0m-wifi_diff_client+microondas_client"),
-    ("0m_Bluetooth")
+    ("0m-bluetooth_client")
 ]
 
 
@@ -44,6 +44,21 @@ df_configs["Nome"] = specified_configs
 df_configs.to_csv("configs.csv", index=False)
 
 # para cada tipo de configuração, cria um novo csv com os dados dessa configuração específica
+def get_config_vars(config):
+    v_sep = []
+    v_sep.append("dist_" + config.split('-')[0])
+    for v in config.split('-')[1].split('+'):
+        v_sep.append(v)
+    return v_sep
+
+vars_sep = []
+for config in specified_configs:
+    for v in get_config_vars(config):
+        vars_sep.append(v)
+    # print(vars_sep)
+# filtra o varsep só pra ter valores unicos
+vars_sep = list(set(vars_sep))
+print(vars_sep)
 
 for config in specified_configs:
     df_config_filtered = df_configs[df_configs["Nome"] == config]
@@ -63,8 +78,23 @@ for config in specified_configs:
         else:
             df_filtered = df_filtered[df_filtered[column] == value]
 
-        print(f"Filtrando {column} = {value}")
-        print(df_filtered.head())
+        # print(f"Filtrando {column} = {value}")
+        # print(df_filtered.head())
 
+    # cria uma coluna de 1s e 0s para preencher com os valores de interferencia
+    this_dt_vars = get_config_vars(config)
+    for var in vars_sep:
+        if var in this_dt_vars:
+            df_filtered[var] = np.ones(len(df_filtered))
+        else:
+            df_filtered[var] = np.zeros(len(df_filtered))
+   
+    
     # salva em um arquivo csv
-    df_filtered.to_csv("filtered/" + config + ".csv", index=False)
+    df_filtered.to_csv("filtered_data/" + config + ".csv", index=False)
+
+# salva num csv as variaveis separadas
+df_vars_sep = pd.DataFrame()
+df_vars_sep["Variaveis"] = vars_sep
+df_vars_sep.to_csv("vars_sep.csv", index=False)
+

@@ -14,4 +14,4 @@ Distancia_m,QTD_Paredes,INT_WIFI,INT_WIFI-Mesmo_Canal,INT_WIFI-Proximo,INT_BT,IN
 0,0,1,SAME,CLIENT,0,,0,,1,CLIENT,0m-wifi_diff_client+cem_client
 0,0,1,SAME,CLIENT,0,,1,CLIENT,0,,0m-wifi_same_client+microondas_client
 0,0,1,DIFF,CLIENT,0,,1,CLIENT,0,,0m-wifi_diff_client+microondas_client
-0,0,0,,,1,CLIENT,0,,0,,0m_Bluetooth
+0,0,0,,,1,CLIENT,0,,0,,0m-bluetooth_client

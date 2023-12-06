@@ -1,0 +1,36 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                MinTime   R-squared:                       0.605
+Model:                            OLS   Adj. R-squared:                  0.012
+Method:                 Least Squares   F-statistic:                     1.020
+Date:                Tue, 05 Dec 2023   Prob (F-statistic):              0.510
+Time:                        01:38:56   Log-Likelihood:                -53.271
+No. Observations:                  16   AIC:                             126.5
+Df Residuals:                       6   BIC:                             134.3
+Df Model:                           9                                         
+Covariance Type:            nonrobust                                         
+=====================================================================================
+                        coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------
+const               271.0000      6.370     42.543      0.000     255.413     286.587
+wifi_same_client      9.5333      6.496      1.468      0.193      -6.362      25.429
+cem_client            4.6333      7.093      0.653      0.538     -12.724      21.990
+wifi_same_server     13.4762      9.631      1.399      0.211     -10.089      37.041
+bl_client            -3.0952     10.215     -0.303      0.772     -28.090      21.900
+1_parede             12.6333      7.093      1.781      0.125      -4.724      29.990
+bluetooth_client     30.0000     12.740      2.355      0.057      -1.174      61.174
+wifi_diff_server     20.0476     11.293      1.775      0.126      -7.585      47.680
+microondas_client     4.1333      7.093      0.583      0.581     -13.224      21.490
+wifi_diff_client     11.8667      6.496      1.827      0.118      -4.029      27.762
+bl_server           -11.3810     14.446     -0.788      0.461     -46.729      23.967
+==============================================================================
+Omnibus:                        6.056   Durbin-Watson:                   2.303
+Prob(Omnibus):                  0.048   Jarque-Bera (JB):                3.128
+Skew:                           0.908   Prob(JB):                        0.209
+Kurtosis:                       4.180   Cond. No.                     1.03e+16
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.83e-31. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.

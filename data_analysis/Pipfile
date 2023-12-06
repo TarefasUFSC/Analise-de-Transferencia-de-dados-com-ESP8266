@@ -8,6 +8,8 @@ pandas = "*"
 plotly = "*"
 kaleido = "*"
 scikit-learn = "*"
+statsmodels = "*"
+scikit-posthocs = "*"
 
 [dev-packages]
 

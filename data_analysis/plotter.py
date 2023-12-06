@@ -83,7 +83,7 @@ for regr in regrs:
     fig.add_trace(go.Scatter(y=regr[1].predict(x_baseline), x=df_baseline["QTD_Bytes"], name="Regressão " + regr[0]))
 fig.update_layout(title_text="Regressões")
 # deixa a imagem em 1080p e coloca a legenda embaixo
-fig.update_layout(width=1920, height=1080, legend_orientation="h")
+fig.update_layout(width=700, height=700, legend_orientation="h")
 fig.write_image("graphs/regressao/regressions.png")
 print("Regressões salvas em graphs/regressao/regressions.png")
 
